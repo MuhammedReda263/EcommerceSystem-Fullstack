@@ -1,4 +1,5 @@
 ﻿using Ecom.Core.Entities;
+using Ecom.Core.Entities.Order;
 using Ecom.Core.Entities.Product;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,15 @@ namespace Ecom.Infrastructure.Data
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // to applay all configurations from configuration filder
             // --- Categories ---
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Technology", Description = "All tech gadgets and devices" },
