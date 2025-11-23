@@ -4,6 +4,9 @@ using Ecom.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Ecom.Core.Entities;
 using Ecom.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Ecom.API
 {
@@ -36,7 +39,7 @@ namespace Ecom.API
             builder.Services.AddInfrastructureServices(builder.Configuration);
 
             // Register Identity (uses AppDbContext registered in infrastructure)
-            builder.Services.AddIdentity<AppUser, IdentityRole>(options => { /* options */ })
+            builder.Services.AddIdentity<AppUser, IdentityRole>(options => { })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -44,6 +47,48 @@ namespace Ecom.API
 
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Token"));
 
+            // Configure JWT Authentication
+            var jwtSettings = builder.Configuration.GetSection("Token");
+            var secret = jwtSettings["Secret"];
+            var issuer = jwtSettings["Issuer"];
+            var key = Encoding.ASCII.GetBytes(secret!);
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                // Support reading token from cookie named "token" so both Authorization header and cookie work
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (string.IsNullOrEmpty(context.Token))
+                        {
+                            var token = context.Request.Cookies["token"];
+                            if (!string.IsNullOrEmpty(token))
+                            {
+                                context.Token = token;
+                            }
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             var app = builder.Build();
 
@@ -55,13 +100,14 @@ namespace Ecom.API
             }
             app.UseCors("AllowAngular");
             app.UseMiddleware<GlobalExceptionMiddleware>();
-            // Enable authentication middleware
-            app.UseAuthentication();
 
-            app.UseAuthorization();
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+
+            // Enable authentication middleware (MUST come before authorization)
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 

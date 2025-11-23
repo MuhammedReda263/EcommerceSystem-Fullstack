@@ -63,7 +63,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Ecom.Core.Entities.AppUser", b =>
@@ -160,7 +160,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods");
+                    b.ToTable("DeliveryMethods", (string)null);
 
                     b.HasData(
                         new
@@ -213,7 +213,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Ecom.Core.Entities.Order.Orders", b =>
@@ -249,7 +249,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasIndex("deliveryMethodId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Ecom.Core.Entities.Product.Category", b =>
@@ -271,7 +271,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -313,7 +313,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("Ecom.Core.Entities.Product.Product", b =>
@@ -347,7 +347,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
@@ -548,7 +548,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Ecom.Core.Entities.Order.ShippingAddress", "shippingAddress", b1 =>
+                    b.OwnsOne("Ecom.Core.Entities.Order.Orders.shippingAddress#Ecom.Core.Entities.Order.ShippingAddress", "shippingAddress", b1 =>
                         {
                             b1.Property<int>("OrdersId")
                                 .HasColumnType("int");
@@ -579,7 +579,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
                             b1.HasKey("OrdersId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrdersId");

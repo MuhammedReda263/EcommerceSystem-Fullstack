@@ -25,7 +25,7 @@ namespace Ecom.Infrastructure.Repositories
         public async Task<CustomerBasket?> GetBasketAsync(string basketId)
         {
            var result = await _redisDb.StringGetAsync(basketId);
-            if (!result.IsNullOrEmpty)
+            if (!string.IsNullOrEmpty(result))
             {
                 return JsonSerializer.Deserialize<CustomerBasket>(result!);
 
@@ -35,7 +35,7 @@ namespace Ecom.Infrastructure.Repositories
 
         public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
         {
-            var result = _redisDb.StringSet(basket.Id, JsonSerializer.Serialize(basket));
+            var result = await _redisDb.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket));
             if (result)
             {
                 return await GetBasketAsync(basket.Id);

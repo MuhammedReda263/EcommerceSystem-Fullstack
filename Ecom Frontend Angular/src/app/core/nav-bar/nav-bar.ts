@@ -10,16 +10,23 @@ import { IBasket } from '../../shared/Models/Basket';
   styleUrl: './nav-bar.scss',
 })
 export class NavBar implements OnInit {
-  constructor(private _basketService : BasketService) { }
-  count : Observable<IBasket> ;
+  constructor(private _basketService: BasketService) { }
+  count: Observable<IBasket>;
   ngOnInit(): void {
-    const basketId = localStorage.getItem("basket_id");
-  this._basketService.getBasket(basketId).subscribe({
-    next:(value) => {
-      console.log("Basket loaded in NavBar:", value);
-      this.count = this._basketService.basket$;
+
+    if (typeof window !== 'undefined') {
+
+      const basketId = localStorage.getItem("basket_id");
+
+      if (basketId) {
+        this._basketService.getBasket(basketId).subscribe({
+          next: (value) => {
+            console.log("Basket loaded in NavBar:", value);
+            this.count = this._basketService.basket$;
+          }
+        });
+      }
     }
-  })
   }
- 
+
 }
