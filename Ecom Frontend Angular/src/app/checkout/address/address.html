@@ -1,0 +1,40 @@
+    <div>
+<button class="btn btn-success mb-2 ms-1" (click)="updateAddress()">Save changes</button>
+    </div>
+    <form [formGroup]="addressFromGroup">
+
+      <mat-form-field class="mx-1">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First name" formControlName="firstName" required>
+      </mat-form-field>
+
+      <mat-form-field class="mx-1">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Last name" formControlName="lastName" required>
+      </mat-form-field>
+
+      <mat-form-field class="mx-1">
+        <mat-label>Street</mat-label>
+        <input matInput placeholder="Street" formControlName="street" required>
+      </mat-form-field>
+
+      <mat-form-field class="mx-1">
+        <mat-label>City</mat-label>
+        <input matInput placeholder="City" formControlName="city" required>
+      </mat-form-field>
+
+      <mat-form-field class="mx-1">
+        <mat-label>Zip Code</mat-label>
+        <input matInput placeholder="Zip Code" formControlName="zipCode" required>
+      </mat-form-field>
+
+      <mat-form-field class="mx-1">
+        <mat-label>State</mat-label>
+        <input matInput placeholder="State" formControlName="state" required>
+      </mat-form-field>
+
+      <div>
+        <button matButton matStepperNext>Next</button>
+      </div>
+
+    </form>

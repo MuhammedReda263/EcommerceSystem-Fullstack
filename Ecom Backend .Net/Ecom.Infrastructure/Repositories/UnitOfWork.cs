@@ -50,7 +50,7 @@ namespace Ecom.Infrastructure.Repositories
             _CustomerBaskets ??= new CustomerBasketRepository(_redis);
 
         public IAuth auth =>
-              _auth ??= new AuthRepository(_userManager,_signInManager,_emailService, _generateToken);
+              _auth ??= new AuthRepository(_userManager,_signInManager,_emailService, _generateToken, _context);
 
 
         public async Task<int> SaveChangesAsync()

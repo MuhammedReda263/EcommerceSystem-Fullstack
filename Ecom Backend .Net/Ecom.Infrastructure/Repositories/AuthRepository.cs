@@ -1,10 +1,13 @@
 ﻿using Ecom.Core.DTO;
 using Ecom.Core.Entities;
+using Ecom.Core.Entities.Order;
 using Ecom.Core.Interfaces;
 using Ecom.Core.Services;
 using Ecom.Core.Sharing;
+using Ecom.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +23,15 @@ namespace Ecom.Infrastructure.Repositories
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IGenerateToken _generateToken;
-        
-        public AuthRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService,IGenerateToken generateToken)
+        private readonly AppDbContext _dbContext;
+
+        public AuthRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IGenerateToken generateToken, AppDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _generateToken = generateToken;
+            _dbContext = dbContext;
 
         }
         public async Task<string?> RegisterAsync(RegisterDTO registerDTO)
@@ -49,7 +54,7 @@ namespace Ecom.Infrastructure.Repositories
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 return errors;
             }
-            string code =  await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await SendEmail(registerDTO.Email, code, "active", "Active Mail", "Please active your email, click on button to active");
             return "Success";
 
@@ -58,15 +63,15 @@ namespace Ecom.Infrastructure.Repositories
 
         public async Task SendEmail(string email, string code, string component, string subject, string message)
         {
-            
-            EmailDTO emailDTO = new EmailDTO 
+
+            EmailDTO emailDTO = new EmailDTO
             (
                 email,
                 "moreda263@gmail.com",
                 subject,
                 EmailStringBody.Send(email, code, component, message)
             );
-           await _emailService.SendEmailAsync(emailDTO);
+            await _emailService.SendEmailAsync(emailDTO);
 
         }
 
@@ -78,7 +83,7 @@ namespace Ecom.Infrastructure.Repositories
             }
             var finduser = await _userManager.FindByEmailAsync(login.Email);
 
-            if(finduser != null)
+            if (finduser != null)
             {
                 if (!finduser.EmailConfirmed)
                 {
@@ -93,7 +98,7 @@ namespace Ecom.Infrastructure.Repositories
                 if (result.Succeeded) return _generateToken.GetAndCreateTokenAsync(finduser);
                 else return "Please check your email and password, something went wrong";
             }
-            
+
 
             return "Please check your email and password, something went wrong";
         }
@@ -131,6 +136,35 @@ namespace Ecom.Infrastructure.Repositories
 
         }
 
-      
+        public async Task<bool> UpdateAddress(string email, Address address)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return false;
+
+            var userAddress = await _dbContext.Addresses.FirstOrDefaultAsync(t => t.AppUserId == user.Id);
+
+            if (userAddress != null)
+            {          
+                userAddress.Street = address.Street;
+                userAddress.City = address.City;
+                userAddress.State = address.State;
+                userAddress.ZipCode = address.ZipCode;
+            }
+            else
+            {
+                address.AppUserId = user.Id;
+                await _dbContext.Addresses.AddAsync(address);
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<Address> getUserAddress(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var address = await _dbContext.Addresses.FirstOrDefaultAsync(temp => temp.AppUserId == user!.Id);
+            return address!;
+        }
     }
 }

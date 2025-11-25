@@ -2,9 +2,11 @@
 using Ecom.API.Helpers;
 using Ecom.Core.DTO;
 using Ecom.Core.Entities;
+using Ecom.Core.Entities.Order;
 using Ecom.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Ecom.API.Controllers
 {
@@ -38,7 +40,6 @@ namespace Ecom.API.Controllers
                  Secure = true,
                  SameSite = SameSiteMode.None,
                  IsEssential = true,
-                 Domain = "localhost",
                  Expires = DateTime.Now.AddDays(1)
              });
             return Ok(new ResponseAPI(200,"Login Success"));
@@ -65,5 +66,28 @@ namespace Ecom.API.Controllers
             if (!result) return BadRequest(new ResponseAPI(400,"User Not Found"));         
             return Ok(new ResponseAPI(200,"Password Reseted Successfully"));
         }
+
+        [HttpPut("update-address")]
+        public async Task<IActionResult> updateAddress (ShippingAddress shippingAddress)
+        {
+            var updatedAddress = _mapper.Map<Address>(shippingAddress);
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _unitOfWork.auth.UpdateAddress(userEmail!,updatedAddress);
+            return result ? NoContent() : BadRequest();
+
+        }
+
+        [HttpGet("get-address-for-user")]
+        public async Task<IActionResult> getAddress ()
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var address = await _unitOfWork.auth.getUserAddress(userEmail!);
+            var result = _mapper.Map<ShipAddressDTO>(address);
+            return Ok(result);
+
+        }
+
+
+
     }
 }

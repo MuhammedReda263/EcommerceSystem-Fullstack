@@ -4,6 +4,7 @@ import { IProducts } from '../shared/Models/Product';
 import { IPagination } from '../shared/Models/Pagination';
 import { ICategory } from '../shared/Models/Category';
 import { ProductParams } from '../shared/Models/ProducrParams';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ShopService {
   constructor(private _http: HttpClient) { }
 
   Products: IProducts[];
-  private baseUrl: string = "https://localhost:7029/api/";
+  private baseUrl: string = environment.baseURL;
 
   getProducts(productParams: ProductParams) {
     let params = new HttpParams()

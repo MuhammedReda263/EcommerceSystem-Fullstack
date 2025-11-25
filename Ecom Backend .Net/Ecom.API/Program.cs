@@ -21,7 +21,7 @@ namespace Ecom.API
                 options.AddPolicy("AllowAngular", policy =>
                 {
                     policy.WithOrigins("http://localhost:4200")
-                          .AllowCredentials()
+                          .AllowCredentials() //Enable the browser to send Cookies ,Authorization: Bearer token
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });

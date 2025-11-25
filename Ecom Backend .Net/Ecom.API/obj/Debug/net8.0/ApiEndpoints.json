@@ -43,6 +43,16 @@
   },
   {
     "ContainingType": "Ecom.API.Controllers.AccountController",
+    "Method": "getAddress",
+    "RelativePath": "api/Account/get-address-for-user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecom.API.Controllers.AccountController",
     "Method": "Login",
     "RelativePath": "api/Account/login",
     "HttpMethod": "POST",
@@ -84,6 +94,22 @@
       {
         "Name": "restPasswordDTO",
         "Type": "Ecom.Core.DTO.ResetPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecom.API.Controllers.AccountController",
+    "Method": "updateAddress",
+    "RelativePath": "api/Account/update-address",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "shippingAddress",
+        "Type": "Ecom.Core.Entities.Order.ShippingAddress",
         "IsRequired": true
       }
     ],

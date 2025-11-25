@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { BasketClass, IBasket, IBasketItem } from '../shared/Models/Basket';
 import { IProducts } from '../shared/Models/Product';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { IProducts } from '../shared/Models/Product';
 export class BasketService {
 
   constructor(private _http: HttpClient) { }
-  baseUrl: string = "https://localhost:7029/api/";
+  baseUrl: string = environment.baseURL;
   private basketSource = new BehaviorSubject<IBasket>(null); // save last value emitted of IBasket
   basket$ = this.basketSource.asObservable(); // observable to be used in components
 

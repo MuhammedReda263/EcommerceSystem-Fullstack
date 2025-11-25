@@ -3,13 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ecom.Core.Entities
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
+
+        [JsonIgnore]
         public Address Address { get; set; }
     }
 }

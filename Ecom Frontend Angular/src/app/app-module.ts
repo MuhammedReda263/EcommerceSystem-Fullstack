@@ -3,17 +3,11 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { CoreModule } from './core/core-module';
-import {provideHttpClient, withFetch } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { HomeModule } from "./home/home-module";
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
-
-
-
-
-
+import { CredentialsInterceptor } from './core/interceptor/credintials-interceptor';
 
 @NgModule({
   declarations: [
@@ -42,9 +36,8 @@ ToastrModule.forRoot({
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
-
-
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true }
   ],
   bootstrap: [App]
 })
