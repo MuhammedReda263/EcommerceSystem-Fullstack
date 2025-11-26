@@ -19,7 +19,7 @@ export class Stepper {
     state: ['', Validators.required],
 
   });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
+  deliveryForm = this._formBuilder.group({
+    delivery: ['', Validators.required],
   });
 }

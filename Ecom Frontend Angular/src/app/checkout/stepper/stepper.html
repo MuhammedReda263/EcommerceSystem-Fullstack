@@ -6,22 +6,13 @@
     <app-address [addressFromGroup]="address"></app-address>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
-    <form [formGroup]="secondFormGroup">
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-      </mat-form-field>
-      <div>
-        <button matButton matStepperPrevious>Back</button>
-        <button matButton matStepperNext>Next</button>
-      </div>
-    </form>
+  <mat-step [stepControl]="deliveryForm" label="Delivery">
+<app-delivery [deliveryFormGroup]="deliveryForm"></app-delivery>
   </mat-step>
   <mat-step>
 
     <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
+    <app-payment [shippingAddress]="address" [delivery]="deliveryForm"></app-payment>
     <div>
       <button matButton matStepperPrevious>Back</button>
       <button matButton (click)="stepper.reset()">Reset</button>

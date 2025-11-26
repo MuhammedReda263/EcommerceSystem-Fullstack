@@ -1,0 +1,42 @@
+<form [formGroup]="deliveryFormGroup">
+
+  <div class="delivery-wrapper">
+
+    <h3 class="delivery-title">Choose Delivery Method</h3>
+
+    <mat-radio-group (valueChange)="setDeliveryPrice($event)"
+      formControlName="delivery"
+      aria-label="Select a delivery option"
+      class="delivery-group">
+
+      @for(item of _deliveryOptions; track $index) {
+      <mat-radio-button
+        class="delivery-option"
+        [value]="item.id" (change)="setDeliveryPrice(item.id)">
+
+        <div class="option-content">
+
+          <div class="option-main">
+            <span class="name me-1">{{ item.name }}</span>
+            <span>{{ item.description }}</span>
+          </div>
+          <div class="option-sub">
+            <span class="option-price">{{ item.price | currency }}</span>
+            <span>{{ item.deliveryTime }}</span>
+          </div>
+
+        </div>
+
+      </mat-radio-button>
+      }
+
+    </mat-radio-group>
+
+  </div>
+
+  <div class="actions">
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-raised-button color="primary" matStepperNext>Next</button>
+  </div>
+
+</form>

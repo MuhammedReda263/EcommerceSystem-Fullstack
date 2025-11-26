@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { DeliveryModel } from '../shared/Models/Delivery';
+import { ICreateOrder } from '../shared/Models/Order';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +17,13 @@ export class CheckoutService {
 
   getAddress (){
     return this._http.get(this.baseUrl +"Account/get-address-for-user");
+  }
+
+  getDelivery (){
+    return this._http.get<DeliveryModel[]>(this.baseUrl+"Orders/delivary")
+  }
+
+  createOrder (form:ICreateOrder){
+    return this._http.post(this.baseUrl+"Orders",form)
   }
 }

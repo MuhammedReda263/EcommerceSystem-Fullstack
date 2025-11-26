@@ -1,0 +1,73 @@
+.delivery-wrapper {
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 20px;
+}
+
+.delivery-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.delivery-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.delivery-option {
+  padding: 12px 14px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.delivery-option.mat-radio-checked {
+  border-color: #1976d2;
+  background: #e3f2fd;
+}
+
+.option-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.option-main {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.option-sub {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dot-separator {
+  font-size: 13px;
+  opacity: .7;
+}
+
+.option-price {
+  font-weight: bold;
+  color: #1976d2;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}

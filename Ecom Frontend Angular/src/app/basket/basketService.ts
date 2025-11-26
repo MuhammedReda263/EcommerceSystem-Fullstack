@@ -17,13 +17,18 @@ export class BasketService {
 
   private basketSourceTotal = new BehaviorSubject<IBasketTotal>(null);
   basketTotal$ = this.basketSourceTotal.asObservable();
+  shippingPrice: number = 0;
+  setShippingPrice(value: number) {
+    this.shippingPrice = value;
+    this.calculateTotals();
+  }
 
   calculateTotals() {
     const basket = this.getCurrentBasketValue();
-    const shipping = 20; 
+    const shipping = this.shippingPrice;
     const subTotal = basket.basketItems.reduce((a, b) => (b.price * b.quantity) + a, 0);
     const total = subTotal + shipping;
-    this.basketSourceTotal.next({shipping, total, subTotal});
+    this.basketSourceTotal.next({ shipping, total, subTotal });
   }
 
   getBasket(id: string) {
@@ -32,9 +37,9 @@ export class BasketService {
         next: (basket: IBasket) => {
           this.basketSource.next(basket);
           console.log(basket);
-          this.calculateTotals() ;
-          return basket; 
-         
+          this.calculateTotals();
+          return basket;
+
         },
         error: (err) => console.error('Error loading basket:', err)
       })
@@ -46,7 +51,7 @@ export class BasketService {
       next: (basket: IBasket) => {
         this.basketSource.next(basket);
         console.log(basket);
-        this.calculateTotals() ;
+        this.calculateTotals();
       },
       error: (err) => console.error('Error creating basket:', err)
     })
@@ -58,8 +63,8 @@ export class BasketService {
 
   addItemToBasket(product: IProducts, quantity: number = 1) {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(product, quantity);
-    let basket = this.getCurrentBasketValue() 
-    if (basket == null){
+    let basket = this.getCurrentBasketValue()
+    if (basket == null) {
       basket = this.CreateBasket();
     }
     basket.basketItems = this.addOrUpdateItem(basket.basketItems, itemToAdd, quantity);
@@ -110,7 +115,7 @@ export class BasketService {
       this.removeItemFromBasket(item);
     }
 
-}
+  }
   removeItemFromBasket(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
     if (basket.basketItems.some(x => x.id === item.id)) {
@@ -134,7 +139,7 @@ export class BasketService {
 }
 
 export interface IBasketTotal {
-  shipping:number,
-  subTotal:number,
-  total:number
+  shipping: number,
+  subTotal: number,
+  total: number
 }

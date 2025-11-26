@@ -9,13 +9,18 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import { Address } from './address/address';
+import { Delivery } from './delivery/delivery';
+import {MatRadioModule} from '@angular/material/radio';
+import { Payment } from './payment/payment';
 
 
 @NgModule({
   declarations: [
     Checkout,
     Stepper,
-    Address
+    Address,
+    Delivery,
+    Payment
   ],
   imports: [
     CommonModule,
@@ -26,10 +31,14 @@ import { Address } from './address/address';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatRadioModule
+    
   ],
   exports:[
     Stepper,
-    Address
+    Address,
+    Delivery,
+    Payment
   ]
 })
 export class CheckoutModule { }
