@@ -109,23 +109,28 @@ namespace Ecom.Infrastructure.Repositories
             if (findProduct is null) return false;
             _mapper.Map(updateProductDTO, findProduct);
 
-            var findPhotos = _context.Photos.Where(p => p.ProductId == updateProductDTO.Id).ToList();  
-            
-            foreach (var item in findPhotos)
+            if (updateProductDTO.Photo != null)
             {
-                _imageManagementService.DeleteImageAsync(item.ImageName);
+                var findPhotos = _context.Photos.Where(p => p.ProductId == updateProductDTO.Id).ToList();
+
+                foreach (var item in findPhotos)
+                {
+                    _imageManagementService.DeleteImageAsync(item.ImageName);
+                }
+
+                _context.Photos.RemoveRange(findPhotos);
+                var imagePath = await _imageManagementService.AddImageAsync(updateProductDTO.Photo, updateProductDTO.Name);
+
+                var photo = imagePath.Select(path => new Photo
+                {
+                    ImageName = path,
+                    ProductId = updateProductDTO.Id,
+                }).ToList();
+
+                await _context.Photos.AddRangeAsync(photo);
             }
 
-            _context.Photos.RemoveRange(findPhotos);
-            var imagePath = await _imageManagementService.AddImageAsync(updateProductDTO.Photo, updateProductDTO.Name);
-
-            var photo = imagePath.Select(path => new Photo
-            {
-                ImageName = path,
-                ProductId = updateProductDTO.Id,
-            }).ToList();
-
-            await _context.Photos.AddRangeAsync(photo);
+           
 
             await _context.SaveChangesAsync();
             return true;

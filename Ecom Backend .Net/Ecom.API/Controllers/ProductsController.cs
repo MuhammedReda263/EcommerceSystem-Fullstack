@@ -56,7 +56,7 @@ namespace Ecom.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateProductDTO updateProductDTO)
+        public async Task<IActionResult> Update([FromForm] UpdateProductDTO updateProductDTO)
         {
             
                if(!await _unitOfWork.Products.UpdateAsync(updateProductDTO))

@@ -1,0 +1,81 @@
+<div class="container-fluid py-2 ">
+    <div class="row ">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 mt-5">
+            <div class="sidebar shadow-sm mt-5 ">
+
+                <h5 class="fw-bold mb-4 text-center">Categories</h5>
+                <div class="category-item p-2 mb-2 mt-3"
+                    [ngClass]="{'active-category': productParams.categoryId == null}" (click)="selectedId(null)">
+                    All
+                </div> @for (item of categories; track item.id) {
+                <div class="category-item p-2 mb-2 mt-3"
+                    [ngClass]="{'active-category': productParams.categoryId == item.id}" (click)="selectedId(item.id)">
+                    {{ item.name }}
+                </div>
+                }
+
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-center flex-column">
+                <div class="mt-4 me-3">
+                    <div class="d-flex">
+                        <h3 class="mb-4">Products List</h3>
+
+                        <button routerLink="/admin/addProduct" style="height: 40px;"
+                            class="btn btn-success ms-auto mt-2">Add Product</button>
+                    </div>
+
+                    <table class="table table-hover table-bordered align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>New Price</th>
+                                <th>Old Price</th>
+                                <th>Category</th>
+                                <th style="width: 140px;">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (p of products; track p.id) {
+                            <tr>
+                                <td>
+                                    <img src="https://localhost:7029/{{p.photos[0]?.imageName}}" class="img-thumbnail"
+                                        style="width: 70px; height: 70px; object-fit: cover;">
+                                </td>
+
+                                <td>{{ p.name }}</td>
+                                <td>{{ p.description }}</td>
+                                <td>{{ p.newPrice }} EGP</td>
+                                <td class="text-decoration-line-through text-danger">{{ p.oldPrice }} EGP</td>
+                                <td>{{ p.categoryName }}</td>
+
+                                <td>
+                                    <button class="btn btn-warning btn-sm me-2" [routerLink]="['/admin/editProduct']"
+                                        [queryParams]="{ id: p.id}">
+                                        Edit
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" (click)="deleteProduct(p.id)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

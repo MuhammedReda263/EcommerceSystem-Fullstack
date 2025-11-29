@@ -19,15 +19,16 @@
 
             <div class="sidebar">
                 <h5 class="mb-3">Categories</h5>
+                <div class="category-item p-2 mb-2 mt-3"
+                    [ngClass]="{'bg-danger': productParams.categoryId == null}" (click)="selectedId(null)">
+                    All
+                </div>
 
                 @for (item of categories; track $index) {
                 <div [ngClass]="{'bg-danger':productParams.categoryId==item.id}" (click)="selectedId(item.id)"
                     class="category-item">
                     {{item.name}}</div>
                 }
-
-
-
 
             </div>
         </div>
@@ -36,7 +37,8 @@
         <div class="col-md-9">
             <!-- Search Bar -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <p class="text-muted mb-0">showing {{products.length}} of {{productParams.PageNumber*productParams.pagesize}}</p>
+                <p class="text-muted mb-0">showing {{products.length}} of
+                    {{productParams.PageNumber*productParams.pagesize}}</p>
                 <div class="d-flex gap-2">
                     <input type="text" #search (keyup)="onSearch(search.value)" (keyup.enter)="onSearch(search.value)"
                         class="form-control" placeholder="Search..." style="width: 300px;">
@@ -55,7 +57,7 @@
 
                 }
                 <div class="d-flex justify-content-center mt-4">
-                   <app-pagination [totalCount]="totalCount" (PageChanged)="onChangePage($event)"></app-pagination>
+                    <app-pagination [totalCount]="totalCount" (PageChanged)="onChangePage($event)"></app-pagination>
                 </div>
 
 
