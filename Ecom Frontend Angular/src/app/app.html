@@ -1,2 +1,7 @@
 <app-nav-bar></app-nav-bar>
+@if (loading.isLoading | async) {
+  <div class="loading-overlay">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+}
 <router-outlet></router-outlet>
