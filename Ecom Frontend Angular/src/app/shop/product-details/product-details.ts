@@ -37,7 +37,6 @@ export class ProductDetails implements OnInit {
  incrementQuantity(){
   if (this.quantity<10){
     this.quantity++
-    this._toster.success("Quantity increased","Success")
   }else{
     this._toster.info("Maximum quantity is 10","Info")
   }
@@ -45,15 +44,14 @@ export class ProductDetails implements OnInit {
  decrementQuantity(){
   if (this.quantity>1){
     this.quantity--
-    this._toster.success("Quantity decreased","Success")
   }else{
-    this._toster.error("You can't decrement less than 1 item","Error")
+    this._toster.error("Minimum quantity is 1", "Invalid Action")
   }
  }
 
  addToBasket (){
   this._basketService.addItemToBasket(this.product,this.quantity);
-  this._toster.success("Product has added to nasket successfully","Success")
+  this._toster.success("Product has added to basket successfully","Success")
  }
  
  calculateDiscount (newPrice:number,oldPrice:number) : number {

@@ -6,6 +6,7 @@ import { ICategory } from '../shared/Models/Category';
 import { ProductParams } from '../shared/Models/ProducrParams';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -15,16 +16,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ShopComponent implements OnInit {
 
-  constructor(private _shopService: ShopService,private toastr: ToastrService) { }
+  constructor(private _shopService: ShopService, private toastr: ToastrService, private route: ActivatedRoute) { }
   products: IProducts[];
   categories: ICategory[];
   productParams = new ProductParams();
-  totalCount : number;
+  totalCount: number;
+  categoryId: number
 
   sortingArray = [
-    { name: "Name", value: "Name" },
-    { name: "Price: Low to High", value: "priceace" },
-    { name: "Price: High to Low", value: "pricedce" },
+    { name: "🔤 Name (A → Z)", value: "Name" },
+    { name: "⬆️ Price (Low → High)", value: "priceace" },
+    { name: "⬇️ Price (High → Low)", value: "pricedce" },
 
   ]
   getProduct() {
@@ -47,6 +49,13 @@ export class ShopComponent implements OnInit {
   ngOnInit(): void {
     this.getProduct();
     this.getCategory();
+
+    this.route.queryParamMap.subscribe(q => {
+      this.categoryId = Number(q.get('categoryId'));
+      if (this.categoryId != null) {
+        this.selectedId(this.categoryId);
+      }
+    });
   }
 
   selectedId(categoryId: number) {

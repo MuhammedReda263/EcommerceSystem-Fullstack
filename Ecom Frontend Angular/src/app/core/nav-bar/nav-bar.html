@@ -27,7 +27,7 @@
           <a class="nav-link" routerLink="/shop" routerLinkActive="active">Shopping</a>
         </li>
         <li class="nav-item" *ngIf="(role$ | async) === 'admin'">
-          <a class="nav-link" routerLink="/admin">Admin</a>
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
         </li>
       </ul>
 

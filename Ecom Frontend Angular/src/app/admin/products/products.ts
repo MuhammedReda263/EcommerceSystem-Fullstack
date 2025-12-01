@@ -25,10 +25,11 @@ export class Products {
   totalCount: number;
 
   getProduct() {
-    this.productParams.pagesize = 100
+    this.productParams.pagesize = 8
     this._adminSerice.getProducts(this.productParams).subscribe({
 
       next: ((value: IPagination) => {
+        console.log(value.data)
         this.products = value.data;
         this.totalCount = value.totalCount;
       })

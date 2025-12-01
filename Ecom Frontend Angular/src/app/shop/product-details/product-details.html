@@ -3,22 +3,16 @@
     <div class="row">
         <div class="col-md-5">
             <div class="main-img">
-                <lib-ngx-image-zoom  
-                    [thumbImage]="'https://localhost:7029/' + imageSrc"
-                    [fullImage]="'https://localhost:7029/' + imageSrc" 
-                    [magnification]="1"
-                    [enableScrollZoom]="true" 
-                    [lensWidth]="200"            
-                    [lensHeight]="200" 
-                    [enableLens]="true"
-                    >
+                <lib-ngx-image-zoom [thumbImage]="'https://localhost:7029/' + imageSrc"
+                    [fullImage]="'https://localhost:7029/' + imageSrc" [magnification]="1" [enableScrollZoom]="true"
+                    [lensWidth]="200" [lensHeight]="200" [enableLens]="true">
                 </lib-ngx-image-zoom>
 
 
                 <div class="row my-3 previews ">
                     @for (item of product.photos; track $index) {
                     <div class="col-md-3 card" (click)="ReplaceImg(item.imageName)">
-                        <img class="w-100"  src="https://localhost:7029/{{item.imageName}}" alt="Sale">
+                        <img class="w-100" src="https://localhost:7029/{{item.imageName}}" alt="Sale">
                     </div>
                     }
 
@@ -37,9 +31,10 @@
 
 
                 <div class="price-area my-4">
-                    <p class="old-price mb-1"><del>${{product.oldPrice|currency}}</del> &nbsp; <span
-                            class="old-price-discount text-danger">{{calculateDiscount(product.newPrice,product.oldPrice)}}%</span></p>
-                    <p class="new-price text-bold mb-1">${{product.newPrice|currency}}</p>
+                    <p class="old-price mb-1">{{product.oldPrice|currency:'':'':'1.2-2'}} EGP &nbsp; <span
+                            class="old-price-discount text-danger">{{calculateDiscount(product.newPrice,product.oldPrice)}}%</span>
+                    </p>
+                    <p class="new-price text-bold mb-1">{{product.newPrice|currency:'':'':'1.2-2' }} EGP</p>
                     <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
                     <p class="text-danger">quantity : {{quantity}}</p>
                     <div>
@@ -91,8 +86,8 @@
             </div>
 
             <div class="row questions bg-light p-3">
-                <div class="col-md-1 icon">
-                    <i class="fa-brands fa-rocketchat questions-icon"></i>
+                <div class="col-md-1 icon d-flex align-items-center">
+                    <i class="fa fa-comments questions-icon"></i>
                 </div>
                 <div class="col-md-11 text">
                     Have a question about our products at E-Store? Feel free to contact our representatives via live
@@ -100,16 +95,24 @@
                 </div>
             </div>
 
+
             <div class="delivery my-4">
-                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3
-                        days from date of purchase</b> </p>
+                <p class="font-weight-bold mb-0">
+                    <span class="me-2"><i class="fa fa-truck"></i></span>
+                    <b>Delivery done in 3 days from date of purchase</b>
+                </p>
                 <p class="text-secondary">Order now to get this product delivery</p>
             </div>
+
             <div class="delivery-options my-4">
-                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Delivery options</b>
+                <p class="font-weight-bold mb-0">
+                    <span class="me-2"><i class="fa fa-sliders"></i></span>
+                    <b>Delivery options</b>
                 </p>
                 <p class="text-secondary">View delivery options here</p>
             </div>
+
+
 
 
         </div>
@@ -118,41 +121,47 @@
 
 
 
-<div class="container similar-products my-4">
+<div class="container similar-products">
     <hr>
     <p class="display-5">Similar Products</p>
 
     <div class="row">
         <div class="col-md-3">
             <div class="similar-product">
-                <img class="w-100" src="https://source.unsplash.com/gsKdPcIyeGg" alt="Preview">
-                <p class="title">Lovely black dress</p>
+                <!-- NEW WORKING IMAGE -->
+                <img class="w-100" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f" alt="Black Dress">
+                <p class="title">Lovely Black Dress</p>
                 <p class="price">$100</p>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="similar-product">
-                <img class="w-100" src="https://source.unsplash.com/sg_gRhbYXhc" alt="Preview">
-                <p class="title">Lovely Dress with patterns</p>
+                <img class="w-100" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" alt="Pattern Dress">
+                <p class="title">Lovely Dress with Patterns</p>
                 <p class="price">$85</p>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="similar-product">
-                <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview">
-                <p class="title">Lovely fashion dress</p>
+                <img class="w-100" src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518" alt="Fashion Dress">
+                <p class="title">Lovely Fashion Dress</p>
                 <p class="price">$200</p>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="similar-product">
-                <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview">
-                <p class="title">Lovely red dress</p>
+                <!-- NEW WORKING IMAGE -->
+                <img class="w-100" src="https://images.unsplash.com/photo-1514996937319-344454492b37" alt="Red Dress">
+                <p class="title">Lovely Red Dress</p>
                 <p class="price">$120</p>
             </div>
         </div>
     </div>
 </div>
+
 
 
 }
