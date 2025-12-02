@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { DeliveryModel } from '../../shared/Models/Delivery';
 import { CheckoutService } from '../checkout-service';
 import { BasketService } from '../../basket/basketService';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-delivery',
@@ -11,7 +12,7 @@ import { BasketService } from '../../basket/basketService';
   styleUrl: './delivery.scss',
 })
 export class Delivery implements OnInit {
-  constructor(private _checkoutService : CheckoutService,private _basketService:BasketService){}
+  constructor(private _checkoutService : CheckoutService,private _basketService:BasketService,private _toaster :ToastrService){}
   _deliveryOptions: DeliveryModel[]
   @Input () deliveryFormGroup : FormGroup
 
@@ -28,6 +29,16 @@ export class Delivery implements OnInit {
       }
     })
   }
+
+
+createPaymentIntent (){
+  const id = this._deliveryOptions.find(temp=>temp.id==this.deliveryFormGroup.value.delivery).id;
+  this._basketService.createPaymentIntent(id).subscribe({
+    next:(value)=> {
+      this._toaster.success("Payment Intent Created","Success")
+    },
+  })
+}
 
 
 

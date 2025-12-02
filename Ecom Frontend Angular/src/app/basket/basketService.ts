@@ -144,6 +144,15 @@ export class BasketService {
       error: (err) => console.error('Error deleting basket:', err)
     })
   }
+
+  createPaymentIntent (deliveryMethodId:number = 2){
+    return this._http.post(this.baseUrl+`Payment/Create?basketId=${this.getCurrentBasketValue().id}&deliveryId=${deliveryMethodId}`,{}).pipe(
+      tap((value:IBasket)=>{
+      this.basketSource.next(value);
+      })
+    )
+  }
+
 }
 
 export interface IBasketTotal {
