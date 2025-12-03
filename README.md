@@ -1,4 +1,4 @@
-# Ecommerce System – .NET 8 Web API + Angular 17
+# Ecommerce System – .NET 8 Web API + Angular 20
 
 This repository contains a **full-stack Ecommerce application** built using **.NET 8 Web API** and **Angular 20**.  
 The solution demonstrates modern software engineering practices such as **Clean Architecture**, **Redis Caching**, **JWT Authentication**, **Email Services**, **Stripe Payment**, and a complete Angular client with guards, interceptors, and responsive UI.
